@@ -1,0 +1,14 @@
+{
+  "name": "quartiles-solver",
+  "version": "1.0.0",
+  "description": "Script to find valid dictionary words from a set of word-fragments",
+  "private": true,
+  "scripts": {
+    "test": "tsc && node index.js && rm -rf index.js"
+  },
+  "author": "iammola",
+  "license": "MIT",
+  "dependencies": {
+    "typescript": "^5.5.4"
+  }
+}
