@@ -1,8 +1,9 @@
+import readline from "node:readline/promises";
+
 async function main() {
+  const fragments = await getFragments();
   const words = await getDictionaryWords();
-  const matches = findMatches(words, [
-    /* word fragments here */
-  ]);
+  const matches = findMatches(words, fragments);
 
   matches.forEach((match) => console.log(`- ${match}`));
 }
@@ -27,8 +28,36 @@ async function getDictionaryWords() {
   }
 }
 
+async function getFragments() {
+  let fragments: string[] = [];
+
+  const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+  });
+
+  do {
+    fragments = await rl
+      .question(
+        `Enter at-least two word fragments. Split with a non-alphabetic character. `
+      )
+      .then((str) => str.split(/[^a-z]/i).filter(Boolean));
+
+    if (fragments.length > 1)
+      console.log(`\nGiven fragments ${fragments.join()}`);
+  } while (
+    fragments.length < 2 ||
+    (
+      (await rl.question("Do you want to continue? [y/n]? ")) || "y"
+    ).toLowerCase() !== "y"
+  );
+
+  rl.close();
+  return fragments;
+}
+
 function findMatches(words: string[], fragments: string[]) {
-  console.log(`\nFinding matches, given fragments ${fragments.join()}`);
+  console.log(`\nFinding matches`);
 
   const matches: string[] = [];
 
